@@ -1,0 +1,54 @@
+version: '3.7'
+
+services:
+  server:
+    build:
+      context: ./
+      target: development-build-stage
+      dockerfile: Dockerfile
+    container_name: server
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    restart: 'unless-stopped'
+    networks:
+      - backend
+    depends_on:
+      - postgres-db
+    environment:
+      - DB_HOST=postgres-db
+      - DB_PORT=5432
+      - DB_USER=root
+      - DB_PASSWORD=password 
+      - DB_DATABASE=test
+  postgres-db:
+    image: postgres:14.1-alpine
+    container_name: ctn-postgres-db
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: test
+    ports:
+      - '5432:5432'
+    networks:
+      - backend
+    volumes: 
+      - data:/var/lib/postgresql/data
+  postgres-adminer:
+    image: adminer
+    container_name: ctn-postgres-adminer
+    restart: always
+    depends_on: 
+      - postgres-db
+    ports:
+      - 8080:8080
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  data:
+    driver: local
