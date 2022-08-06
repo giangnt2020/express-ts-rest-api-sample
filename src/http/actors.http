@@ -1,0 +1,35 @@
+# baseURL
+@baseURL = http://localhost:3000
+
+###
+# Find All Actors
+GET {{ baseURL }}/actor
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjU5ODA5ODc0LCJleHAiOjE2NTk4MTM0NzR9.t2-i6sVJjBUVcFGpdNkTOqZUMyqj5ckX0oR8qIryGos
+
+###
+# Find Actor By Id
+GET {{ baseURL }}/actor/1
+
+###
+# Create Actor
+POST {{ baseURL }}/actor
+Content-Type: application/json
+
+{
+    "name": "Tony",
+	"age": 20
+}
+
+###
+# Modify Actor By Id
+PUT {{ baseURL }}/actor/1
+Content-Type: application/json
+
+{
+    "name": "Tony",
+	"age": 19
+}
+
+###
+# Delete Actor By Id
+DELETE {{ baseURL }}/actor/1
